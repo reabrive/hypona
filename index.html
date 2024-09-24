@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="description" content="Algorithme diagnostic des hyponatrémies et calculateur d'osmolarité plasmatique">
 	<title>Diagnostic des hyponatrémies</title>
 	<style>
 		body {
@@ -12,7 +13,10 @@
 			position: relative;
 			color: #444;
 			line-height: 1.5;
-			background-color: #f2f2f2;
+			background-image: url('background-image.jpg');
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
 		}
 		header {
 			background-color: #6c757d;
@@ -46,6 +50,61 @@
 			line-height: 1.5;
 			text-align: justify;
 		}
+		/* style pour le calculateur */
+		.calculator-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+			background-color: #f2f2f2;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+		}
+		.calculator-title {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 20px;
+			color: #333;
+		}
+		.calculator {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.calculator label {
+			margin-bottom: 5px;
+			color: #333;
+		}
+		.calculator input {
+			margin-bottom: 10px;
+			padding: 5px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+		}
+		.calculator button {
+			padding: 5px 10px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+		}
+		.calculator button:hover {
+			background-color: #0056b3;
+		}
+		.calculator p {
+			margin-top: 20px;
+			font-weight: bold;
+			color: #333;
+		}
+		@media screen and (max-width: 600px) {
+			.calculator-container {
+				width: 90%;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -54,10 +113,37 @@
 	</header>
 	<main>
 		<img src="https://reabrive.github.io/hypona/hypona.jpg" alt="Image en plein écran">
-		
+
 		<p>Complication : syndrome de démyélinisation osmotique (ODS)<br>
 		Une restauration trop rapide de la natrémie peut causer des lésions centrales (principalement au niveau pontique), car les cellules sont trop rapidement déshydratées. L’ODS (appelé anciennement myélinolyse centropontique) se manifeste par une léthargie, troubles de l’état de conscience, dysarthrie, paralysie flasque et dysphagie. Afin de le prévenir, il est recommandé de ne pas corriger la natrémie plus vite que 10-12 mmol/l dans les premières 24 heures. Les facteurs de risque pour le développement d’un ODS sont : taux de correction rapide, alcoolisme chronique, malnutrition (spécifiquement un déficit en vitamines B), lésions cérébrales anoxiques, hépatopathie, hypokaliémie et hypophosphatémie. <br> Source : <a href="https://www.revmed.ch/revue-medicale-suisse/2010/revue-medicale-suisse-269/approche-diagnostique-de-l-hyponatremie" target="_blank">Revue Médicale Suisse</a></p>
-		
+
+		<!-- calculateur d'osmolarité plasmatique -->
+		<div class="calculator-container">
+			<h2 class="calculator-title">Calculateur d'osmolarité plasmatique</h2>
+			<div class="calculator">
+				<label for="natremie">Natrémie (mmol/l):</label>
+				<input type="number" id="natremie" min="0" step="1" value="140">
+				<label for="kaliemie">Kaliémie (mmol/l):</label>
+				<input type="number" id="kaliemie" min="0" step="0.1" value="4.4">
+				<label for="uree">Urée (mmol/l):</label>
+				<input type="number" id="uree" min="0" step="1" value="5">
+				<label for="glycemie">Glycémie (mmol/l):</label>
+				<input type="number" id="glycemie" min="0" step="0.1" value="5.5">
+				<button onclick="calculateOsmolarity()">Calculer</button>
+				<p id="result"></p>
+			</div>
+		</div>
 	</main>
+
+	<script>
+		function calculateOsmolarity() {
+			const natremie = parseFloat(document.getElementById("natremie").value);
+			const kaliemie = parseFloat(document.getElementById("kaliemie").value);
+			const uree = parseFloat(document.getElementById("uree").value);
+			const glycemie = parseFloat(document.getElementById("glycemie").value);
+			const osmolarity = (natremie + kaliemie) * 2 + uree + glycemie;
+			document.getElementById("result").innerText = "Osmolarité plasmatique: " + osmolarity + " mmol/l";
+		}
+	</script>
 </body>
 </html>
